@@ -1,0 +1,20 @@
+digraph GameTree {
+node [shape=box, style=filled, fillcolor=lightblue];
+node0 [label="_|_|_\n_|_|_\n_|_|_"];
+node1 [label="X|_|_\n_|_|_\n_|_|_"];
+node0 -> node1;
+node2 [label="X|_|_\n_|O|_\n_|_|_"];
+node1 -> node2;
+node3 [label="X|_|_\n_|O|_\nX|_|_"];
+node2 -> node3;
+node4 [label="X|_|_\nO|O|_\nX|_|_"];
+node3 -> node4;
+node5 [label="X|_|_\nO|O|X\nX|_|_"];
+node4 -> node5;
+node6 [label="X|O|_\nO|O|X\nX|_|_"];
+node5 -> node6;
+node7 [label="X|O|_\nO|O|X\nX|_|X"];
+node6 -> node7;
+node8 [label="X|O|_\nO|O|X\nX|O|X"];
+node7 -> node8;
+}
