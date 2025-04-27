@@ -111,11 +111,14 @@ private:
         int bestVal = -1000;
         pair<int, int> bestMove = {-1, -1};
         vector<pair<int, int>> possibleMoves;
+        vector<pair<int, int>> allMoves; // Tüm boş kareler
+
         int rootNodeId = visualizer.addNode(board);
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (board[i][j] == ' ') {
+                    allMoves.push_back({i, j}); // Her boş kareyi ekle
                     board[i][j] = computer;
                     int nodeId = visualizer.addNode(board, rootNodeId);
                     int moveVal = minimax(0, false, -1000, 1000, nodeId);
@@ -133,25 +136,26 @@ private:
             }
         }
 
-        // Zorluk seviyesine göre rastgele hamle seçimi
+        // Kolay seviye: %50 en iyi, %50 rastgele (herhangi bir boş kare)
         if (difficulty == 1) {
-            // Kolay: %50 ihtimalle en iyi hamleyi, %50 ihtimalle rastgele hamle yapar
             if (rand() % 2 == 0) {
                 return bestMove;
             } else {
-                int randomIndex = rand() % possibleMoves.size();
-                return possibleMoves[randomIndex];
+                int randomIndex = rand() % allMoves.size();
+                return allMoves[randomIndex];
             }
-        } else if (difficulty == 2) {
-            // Orta: %75 ihtimalle en iyi hamleyi, %25 ihtimalle rastgele hamle yapar
+        }
+        // Orta seviye: %75 en iyi, %25 rastgele
+        else if (difficulty == 2) {
             if (rand() % 4 != 0) {
                 return bestMove;
             } else {
-                int randomIndex = rand() % possibleMoves.size();
-                return possibleMoves[randomIndex];
+                int randomIndex = rand() % allMoves.size();
+                return allMoves[randomIndex];
             }
-        } else {
-            // Zor: Her zaman en iyi hamleyi yapar
+        }
+        // Zor seviye: Her zaman en iyi
+        else {
             return bestMove;
         }
     }
@@ -200,26 +204,26 @@ public:
         int score = evaluate();
         if (score == 10) {
             printBoard();
-            cout << "Bilgisayar kazandı!\n";
+            cout << "Computer wins!\n";
             visualizer.endVisualization();
-            cout << "Oyun ağacı 'game_history.dot' dosyasına kaydedildi.\n";
-            cout << "Görselleştirmek için: dot -Tpng game_history.dot -o game_history.png\n";
+            cout << "Game tree saved to 'game_history.dot'.\n";
+            cout << "To visualize: dot -Tpng game_history.dot -o game_history.png\n";
             return true;
         }
         if (score == -10) {
             printBoard();
-            cout << "Tebrikler! Siz kazandınız!\n";
+            cout << "Congratulations! You win!\n";
             visualizer.endVisualization();
-            cout << "Oyun ağacı 'game_history.dot' dosyasına kaydedildi.\n";
-            cout << "Görselleştirmek için: dot -Tpng game_history.dot -o game_history.png\n";
+            cout << "Game tree saved to 'game_history.dot'.\n";
+            cout << "To visualize: dot -Tpng game_history.dot -o game_history.png\n";
             return true;
         }
         if (!isMovesLeft()) {
             printBoard();
-            cout << "Berabere!\n";
+            cout << "Draw!\n";
             visualizer.endVisualization();
-            cout << "Oyun ağacı 'game_history.dot' dosyasına kaydedildi.\n";
-            cout << "Görselleştirmek için: dot -Tpng game_history.dot -o game_history.png\n";
+            cout << "Game tree saved to 'game_history.dot'.\n";
+            cout << "To visualize: dot -Tpng game_history.dot -o game_history.png\n";
             return true;
         }
         return false;
@@ -229,25 +233,28 @@ public:
 int main() {
     srand(time(0));
     int difficulty;
-    cout << "Zorluk seviyesini seçin (1: Kolay, 2: Orta, 3: Zor): ";
-    cin >> difficulty;
+    do {
+        cout << "Select difficulty level (1: Easy, 2: Medium, 3: Hard): ";
+        cin >> difficulty;
+        cout << "difficulty: " << difficulty << endl;
+    } while (difficulty < 1 || difficulty > 3);
 
     TicTacToe game(difficulty);
     int row, col;
 
     while (true) {
         game.printBoard();
-        cout << "Hamlenizi girin (satır sütun, 0-2 arası): ";
+        cout << "Enter your move (row column, 0-2): ";
         cin >> row >> col;
 
         if (!game.makeMove(row, col)) {
-            cout << "Geçersiz hamle! Tekrar deneyin.\n";
+            cout << "Invalid move! Try again.\n";
             continue;
         }
 
         if (game.isGameOver()) break;
 
-        cout << "Bilgisayar düşünüyor...\n";
+        cout << "Computer is thinking...\n";
         game.computerMove();
 
         if (game.isGameOver()) break;
