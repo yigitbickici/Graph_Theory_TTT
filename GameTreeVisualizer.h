@@ -10,6 +10,7 @@ class GameTreeVisualizer {
 private:
     std::ofstream dotFile;
     int nodeCount = 0;
+    bool isPruned = false;
 
     std::string getNodeLabel(const std::vector<std::vector<char>>& board) {
         std::string label = "";
@@ -24,19 +25,30 @@ private:
     }
 
 public:
+    GameTreeVisualizer() : nodeCount(0), isPruned(false) {}
+
     void startVisualization(const std::string& filename) {
         dotFile.open(filename);
         dotFile << "digraph GameTree {\n";
         dotFile << "node [shape=box, style=filled, fillcolor=lightblue];\n";
     }
 
-    int addNode(const std::vector<std::vector<char>>& board, int parentId = -1) {
+    int addNode(const std::vector<std::vector<char>>& board, int parentId = -1, bool isPruned = false) {
         int currentId = nodeCount++;
         std::string label = getNodeLabel(board);
         
-        dotFile << "node" << currentId << " [label=\"" << label << "\"];\n";
+        dotFile << "node" << currentId << " [label=\"" << label << "\"";
+        if (isPruned) {
+            dotFile << ", fillcolor=red";
+        }
+        dotFile << "];\n";
+        
         if (parentId != -1) {
-            dotFile << "node" << parentId << " -> node" << currentId << ";\n";
+            dotFile << "node" << parentId << " -> node" << currentId;
+            if (isPruned) {
+                dotFile << " [style=dotted, color=red]";
+            }
+            dotFile << ";\n";
         }
         
         return currentId;

@@ -55,7 +55,7 @@ private:
         return 0;
     }
 
-    int minimax(int depth, bool isMax, int alpha, int beta) {
+    int minimax(int depth, bool isMax, int alpha, int beta, int parentNodeId) {
         int score = evaluate();
 
         if (score == 10) return score - depth;
@@ -64,30 +64,44 @@ private:
 
         if (isMax) {
             int best = -1000;
+            bool pruned = false;
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     if (board[i][j] == ' ') {
                         board[i][j] = computer;
-                        best = max(best, minimax(depth + 1, !isMax, alpha, beta));
+                        int nodeId = visualizer.addNode(board, parentNodeId, pruned);
+                        int moveVal = minimax(depth + 1, !isMax, alpha, beta, nodeId);
                         board[i][j] = ' ';
+                        best = max(best, moveVal);
                         alpha = max(alpha, best);
-                        if (beta <= alpha) break;
+                        if (beta <= alpha) {
+                            pruned = true;
+                            break;
+                        }
                     }
                 }
+                if (pruned) break;
             }
             return best;
         } else {
             int best = 1000;
+            bool pruned = false;
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     if (board[i][j] == ' ') {
                         board[i][j] = player;
-                        best = min(best, minimax(depth + 1, !isMax, alpha, beta));
+                        int nodeId = visualizer.addNode(board, parentNodeId, pruned);
+                        int moveVal = minimax(depth + 1, !isMax, alpha, beta, nodeId);
                         board[i][j] = ' ';
+                        best = min(best, moveVal);
                         beta = min(beta, best);
-                        if (beta <= alpha) break;
+                        if (beta <= alpha) {
+                            pruned = true;
+                            break;
+                        }
                     }
                 }
+                if (pruned) break;
             }
             return best;
         }
@@ -97,12 +111,14 @@ private:
         int bestVal = -1000;
         pair<int, int> bestMove = {-1, -1};
         vector<pair<int, int>> possibleMoves;
+        int rootNodeId = visualizer.addNode(board);
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (board[i][j] == ' ') {
                     board[i][j] = computer;
-                    int moveVal = minimax(0, false, -1000, 1000);
+                    int nodeId = visualizer.addNode(board, rootNodeId);
+                    int moveVal = minimax(0, false, -1000, 1000, nodeId);
                     board[i][j] = ' ';
 
                     if (moveVal > bestVal) {
