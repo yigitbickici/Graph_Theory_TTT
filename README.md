@@ -1,8 +1,5 @@
 # 🎮 Tic-Tac-Toe Game with Graph Theory Implementation
 
-A sophisticated implementation of the classic Tic-Tac-Toe game that demonstrates the application of Graph Theory concepts and AI algorithms.
-
-![Game Preview](game_preview.png)
 
 ## 📋 Table of Contents
 - [Features](#-features)
@@ -11,8 +8,7 @@ A sophisticated implementation of the classic Tic-Tac-Toe game that demonstrates
 - [Game Rules](#-game-rules)
 - [Graph Theory Concepts](#-graph-theory-concepts)
 - [Technical Details](#-technical-details)
-- [Contributing](#-contributing)
-- [License](#-license)
+
 
 ## ✨ Features
 
@@ -73,12 +69,6 @@ Run the game:
   - Improves algorithm efficiency
   - Eliminates unnecessary node evaluations
 
-### Theoretical Foundations
-- Zero-sum games
-- Nash equilibrium
-- Game tree complexity
-- Optimal strategy determination
-
 ## 🔧 Technical Details
 
 ### Complexity Analysis
@@ -87,10 +77,4 @@ Run the game:
 - Alpha-Beta pruning optimization: O(b^(d/2))
 - Space complexity: O(bd)
 
-## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
