@@ -11,7 +11,7 @@ private:
     vector<vector<char>> board;
     char player;
     char computer;
-    int difficulty; // 1: Kolay, 2: Orta, 3: Zor
+    int difficulty; 
     GameTreeVisualizer visualizer;
     vector<vector<vector<char>>> gameHistory;
     int currentNodeId;
@@ -25,7 +25,6 @@ private:
     }
 
     int evaluate() {
-        // Satır kontrolü
         for (int row = 0; row < 3; row++) {
             if (board[row][0] == board[row][1] && board[row][1] == board[row][2]) {
                 if (board[row][0] == computer) return +10;
@@ -33,7 +32,6 @@ private:
             }
         }
 
-        // Sütun kontrolü
         for (int col = 0; col < 3; col++) {
             if (board[0][col] == board[1][col] && board[1][col] == board[2][col]) {
                 if (board[0][col] == computer) return +10;
@@ -41,7 +39,6 @@ private:
             }
         }
 
-        // Çapraz kontrol
         if (board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
             if (board[0][0] == computer) return +10;
             else if (board[0][0] == player) return -10;
@@ -111,14 +108,14 @@ private:
         int bestVal = -1000;
         pair<int, int> bestMove = {-1, -1};
         vector<pair<int, int>> possibleMoves;
-        vector<pair<int, int>> allMoves; // Tüm boş kareler
+        vector<pair<int, int>> allMoves; 
 
         int rootNodeId = visualizer.addNode(board);
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (board[i][j] == ' ') {
-                    allMoves.push_back({i, j}); // Her boş kareyi ekle
+                    allMoves.push_back({i, j}); 
                     board[i][j] = computer;
                     int nodeId = visualizer.addNode(board, rootNodeId);
                     int moveVal = minimax(0, false, -1000, 1000, nodeId);
@@ -136,7 +133,6 @@ private:
             }
         }
 
-        // Kolay seviye: %50 en iyi, %50 rastgele (herhangi bir boş kare)
         if (difficulty == 1) {
             if (rand() % 2 == 0) {
                 return bestMove;
@@ -145,7 +141,6 @@ private:
                 return allMoves[randomIndex];
             }
         }
-        // Orta seviye: %75 en iyi, %25 rastgele
         else if (difficulty == 2) {
             if (rand() % 4 != 0) {
                 return bestMove;
@@ -154,7 +149,6 @@ private:
                 return allMoves[randomIndex];
             }
         }
-        // Zor seviye: Her zaman en iyi
         else {
             return bestMove;
         }

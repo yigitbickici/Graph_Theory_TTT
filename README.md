@@ -1,44 +1,96 @@
-Tic-Tac-Toe Game
+# 🎮 Tic-Tac-Toe Game with Graph Theory Implementation
 
-This project is a Tic-Tac-Toe (XOX) game developed using the Minimax algorithm. It allows the user to play against the computer and includes three difficulty levels.
+A sophisticated implementation of the classic Tic-Tac-Toe game that demonstrates the application of Graph Theory concepts and AI algorithms.
 
-Features
+![Game Preview](game_preview.png)
 
-Three difficulty levels:
-Easy: The computer plays the best move with a 50% chance and a random move with a 50% chance
-Medium: The computer plays the best move with a 75% chance and a random move with a 25% chance
-Hard: The computer always plays the best move
-Optimal game strategy with the Minimax algorithm
-Optimization with Alpha-Beta Pruning
-User-friendly interface
-Compilation and Execution
+## 📋 Table of Contents
+- [Features](#-features)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [Game Rules](#-game-rules)
+- [Graph Theory Concepts](#-graph-theory-concepts)
+- [Technical Details](#-technical-details)
+- [Contributing](#-contributing)
+- [License](#-license)
 
+## ✨ Features
+
+### Difficulty Levels
+- **Easy**: Computer plays optimally 50% of the time, randomly 50% of the time
+- **Medium**: Computer plays optimally 75% of the time, randomly 25% of the time
+- **Hard**: Computer always plays the optimal move
+
+### Technical Features
+- 🧠 Minimax algorithm implementation
+- ⚡ Alpha-Beta pruning optimization
+- 🎯 Optimal game strategy
+- 🖥️ User-friendly command-line interface
+
+## 💻 Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/Graph_Theory_TTT.git
+cd Graph_Theory_TTT
+```
+
+2. Compile the game:
+```bash
 g++ main.cpp -o tictactoe
+```
+
+## 🎮 Usage
+
+Run the game:
+```bash
 ./tictactoe
-Game Rules
+```
 
-The game is played on a 3x3 board
-The player uses the symbol 'X', and the computer uses 'O'
-Moves are made by entering row and column numbers (between 0 and 2)
-The first player to align three of their symbols horizontally, vertically, or diagonally wins
-If all cells are filled and no one has won, the game ends in a draw
-Relation to Graph Theory
+## 📜 Game Rules
 
-This project can be related to the following topics from Graph Theory:
+- Played on a 3×3 grid
+- Players alternate placing their marks (X for human, O for computer)
+- Input moves using row and column numbers (0-2)
+- First player to get three marks in a row (horizontally, vertically, or diagonally) wins
+- Game ends in a draw if all cells are filled without a winner
 
-Game Tree:
-The Tic-Tac-Toe game can be modeled as a game tree that includes all possible moves
-Each node represents a game state, and each edge represents a move
-The Minimax algorithm operates on this tree
-Minimax Algorithm:
-Used to find the best move in the game tree
-Determines the optimal strategy by computing maximum and minimum values
-Reduces unnecessary searches with Alpha-Beta Pruning
-Game Theory:
-Zero-sum games
-Nash equilibrium
-Determining optimal strategies
-Complexity Analysis:
-Size and depth of the game tree
-Time complexity of the Minimax algorithm
-Optimization gained through Alpha-Beta Pruning
+## 📊 Graph Theory Concepts
+
+### Game Tree Representation
+- Each node represents a game state
+- Edges represent possible moves
+- Terminal nodes represent game outcomes (win, lose, draw)
+
+### Algorithm Implementation
+- **Minimax Algorithm**
+  - Maximizes the minimum possible gain
+  - Minimizes the maximum possible loss
+  - Implements optimal strategy for both players
+
+- **Alpha-Beta Pruning**
+  - Reduces search space
+  - Improves algorithm efficiency
+  - Eliminates unnecessary node evaluations
+
+### Theoretical Foundations
+- Zero-sum games
+- Nash equilibrium
+- Game tree complexity
+- Optimal strategy determination
+
+## 🔧 Technical Details
+
+### Complexity Analysis
+- Game tree size: 9! = 362,880 possible states
+- Minimax time complexity: O(b^d)
+- Alpha-Beta pruning optimization: O(b^(d/2))
+- Space complexity: O(bd)
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
